@@ -24,14 +24,17 @@ export default function CreateTodo({ user, handleAddTodos }) {
     <form
       onSubmit={(e) => {
         e.preventDefault();
+         if (!title.trim()) {
+           alert("Title can not be empty!");
+           return;
+         }
         handleCreate();
-      }}
-    >
+      }}>
       <div>
         Author: <b>{user}</b>
       </div>
       <div>
-        <label htmlFor="create-title">Title:</label>
+        <label htmlFor="create-title">Title: </label>
         <input
           type="text"
           name="create-title"
@@ -40,6 +43,7 @@ export default function CreateTodo({ user, handleAddTodos }) {
           onChange={handleTitle}
         />
       </div>
+      <label>Description: </label>
       <textarea value={description} onChange={handleDescription} />
       <input type="submit" value="Create" />
     </form>
