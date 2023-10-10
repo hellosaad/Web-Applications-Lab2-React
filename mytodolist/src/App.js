@@ -2,26 +2,26 @@ import { useState } from "react";
 import CreateTodo from "./CreateTodo";
 import UserBar from "./UserBar";
 import TodoList from "./TodoList";
-
+import './App.css';
 function App() {
   const [user, setUser] = useState("");
   const initalTodos = [
     {
       id: 1,
-      title: "Title1",
-      description: "This is Todo1",
+      title: "Go to the Gym",
+      description: "Chest Day today",
       dateCreated: Date.now(),
-      dateCompleted: Date.now(),
-      author: "Author1",
+      dateCompleted: null,
+      author: "Saad",
       complete: false,
     },
     {
       id: 2,
-      title: "Title2",
-      description: "This is Todo2",
+      title: "Buy Milk",
+      description: "Buy milk from target",
       dateCreated: Date.now(),
       dateCompleted: null,
-      author: "Author2",
+      author: "Madiha",
       complete: false,
     }
   

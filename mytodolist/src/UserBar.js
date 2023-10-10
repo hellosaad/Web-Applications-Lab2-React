@@ -9,6 +9,7 @@ export default function UserBar({user,setUser }) {
   } else {
     return (
       <>
+        
         <Login setUser={setUser} />
         <Register setUser={setUser} />
       </>
