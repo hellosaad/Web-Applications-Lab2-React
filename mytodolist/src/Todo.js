@@ -4,7 +4,9 @@ export default function Todo({
   description,
   dateCreated,
   author,
+  complete,
   dateCompleted,
+  onToggleComplete
 }) {
   return (
     <div>
@@ -15,6 +17,13 @@ export default function Todo({
       <div>dateCreated: {dateCreated}</div>
       <div>dateCompleted: {dateCompleted}</div>
       <i>Written by {author}</i>
+      <br />
+      <input
+        type="checkbox"
+        checked={complete}
+        onChange={() => onToggleComplete(id)}
+      />{" "}
+      Complete
       <br />
     </div>
   );
