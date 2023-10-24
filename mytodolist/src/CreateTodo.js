@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
-export default function CreateTodo({ user, handleAddTodos }) {
+export default function CreateTodo({ user, dispatch }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -10,16 +10,17 @@ export default function CreateTodo({ user, handleAddTodos }) {
   function handleDescription(evt) {
     setDescription(evt.target.value);
   }
-  function handleCreate() {
-    const newTodo = {
-      id: uuidv4(),
-      title,
-      description,
-      dateCreated: Date.now(),
-      author: user,
-    };
-    handleAddTodos(newTodo);
-  }
+function handleCreate() {
+  const newTodo = {
+    id: uuidv4(),
+    title,
+    description,
+    dateCreated: Date.now(),
+    author: user,
+  };
+  dispatch({ type: "CREATE_TODO", newTodo });
+}
+
   return (
     <form
       onSubmit={(e) => {

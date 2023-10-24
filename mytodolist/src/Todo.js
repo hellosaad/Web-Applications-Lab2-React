@@ -7,7 +7,7 @@ export default function Todo({
   author,
   complete,
   dateCompleted,
-  onToggleComplete
+  dispatch
 }) {
   const formatDateAndTime = (timestamp) => {
     const date = new Date(timestamp);
@@ -24,7 +24,10 @@ export default function Todo({
       <div className="todo-details">
         <div>Created: {formatDateAndTime(dateCreated)}</div>
         <br></br>
-        <div>Completed:{" "} {dateCompleted ? formatDateAndTime(dateCompleted) : "Not completed"}</div>
+        <div>
+          Completed:{" "}
+          {dateCompleted ? formatDateAndTime(dateCompleted) : "Not completed"}
+        </div>
         <br></br>
         <i>Written by {author}</i>
       </div>
@@ -32,11 +35,14 @@ export default function Todo({
         <input
           type="checkbox"
           checked={complete}
-          onChange={() => onToggleComplete(id)}
+          onChange={() => dispatch({ type: "TOGGLE_TODO", id })}
         />{" "}
         <label className="todo-checkbox-label">Complete</label>
         <br />
       </div>
+      <button onClick={() => dispatch({ type: "DELETE_TODO", id })}>
+        Delete
+      </button>
     </div>
   );
 }

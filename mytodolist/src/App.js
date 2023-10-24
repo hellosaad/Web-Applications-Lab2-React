@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import CreateTodo from "./CreateTodo";
 import UserBar from "./UserBar";
 import TodoList from "./TodoList";
+import { userReducer, todoReducer } from "./reducers";
 import './App.css';
+
 function App() {
-  const [user, setUser] = useState("");
   const initalTodos = [
     {
       id: 1,
@@ -23,36 +24,24 @@ function App() {
       dateCompleted: null,
       author: "Madiha",
       complete: false,
-    }
-  
+    },
   ];
+  
+  const [user, userDispatch] = useReducer(userReducer, '');
+  const [todos, todosDispatch] = useReducer(todoReducer, initalTodos);
 
-  const [todos, setTodos] = useState(initalTodos);
-
-  const handleAddTodos = (newTodo) => {
-    setTodos([newTodo, ...todos]);
-  };
- const handleToggleComplete = (id) => {
-   setTodos((initalTodos) => {
-     return initalTodos.map((todo) => {
-       if (todo.id === id) {
-         return {
-           ...todo,
-           complete: !todo.complete,
-           dateCompleted: !todo.complete ? Date.now() : null,
-         };
-       }
-       return todo;
-     });
-   });
- };
   return (
     <div>
-      <UserBar user={user} setUser={setUser} />
-      <CreateTodo user={user} handleAddTodos={handleAddTodos} />
-      <TodoList todos={todos} onToggleComplete={handleToggleComplete} />
+      <UserBar user={user} dispatch={userDispatch} />
+      <CreateTodo user={user} dispatch={todosDispatch} />
+      <TodoList todos={todos} dispatch={todosDispatch} />
     </div>
   );
 }
 
 export default App;
+
+
+
+
+  
