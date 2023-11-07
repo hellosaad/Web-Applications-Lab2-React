@@ -1,14 +1,15 @@
-import { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useContext } from "react";
+import { StateContext } from "./contexts";
+import appReducer from "./reducers";
 import { useResource } from "react-request-hook";
 import CreateTodo from "./CreateTodo";
 import UserBar from "./UserBar";
 import TodoList from "./TodoList";
-import { userReducer, todoReducer } from "./reducers";
 import "./App.css";
 
 function App() {
-  const [user, userDispatch] = useReducer(userReducer, "");
-  const [todos, todosDispatch] = useReducer(todoReducer, []);
+  // Use the combined reducer for your entire app's state management
+  const [state, dispatch] = useReducer(appReducer, { user: "", todos: [] });
 
   // Define the useResource Hook for GET /posts
   const [postsResult, getPosts] = useResource(() => ({
@@ -19,7 +20,7 @@ function App() {
   // Fetch posts when the component mounts
   useEffect(() => {
     getPosts();
-  }, []); // Empty array ensures this only runs once on mount
+  }, [getPosts]); // Ensure getPosts is listed in the dependency array
 
   // Dispatch an action when the posts are successfully fetched
   useEffect(() => {
@@ -34,16 +35,23 @@ function App() {
         author: post.author,
         complete: post.complete,
       }));
-      todosDispatch({ type: "FETCH_TODOS", todos: transformedTodos });
+      dispatch({ type: "FETCH_TODOS", todos: transformedTodos });
     }
-  }, [postsResult]);
+  }, [postsResult, dispatch]);
 
   return (
-    <div className="App">
-      <UserBar user={user} dispatch={userDispatch} />
-      <CreateTodo user={user} dispatch={todosDispatch} />
-      <TodoList todos={todos} dispatch={todosDispatch} />
-    </div>
+    <StateContext.Provider value={{ state, dispatch }}>
+      {" "}
+      {/* Wrap your components with StateContext.Provider */}
+      <div className="App">
+        <UserBar /> {/* UserBar now gets state and dispatch from context */}
+        <CreateTodo />{" "}
+        {/* CreateTodo now gets state and dispatch from context */}
+        <TodoList /> {/* TodoList now gets state and dispatch from context */}
+      </div>
+    </StateContext.Provider>
   );
+
 }
+
 export default App;

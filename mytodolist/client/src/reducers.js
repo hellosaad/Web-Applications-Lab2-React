@@ -35,3 +35,10 @@ export function todoReducer(state, action) {
       return state;
   }
 }
+
+export default function appReducer(state, action) {
+  return {
+    user: userReducer(state.user, action),
+    todos: todoReducer(state.todos, action),
+  };
+}

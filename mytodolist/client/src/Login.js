@@ -1,16 +1,19 @@
-import { useState } from 'react'
+import React, { useState, useContext } from "react";
+import { StateContext } from "./contexts"; // Import the StateContext
 
-export default function Login({ dispatch }) {
+export default function Login() {
+  const { dispatch } = useContext(StateContext); // Use useContext to access dispatch
   const [username, setUsername] = useState("");
 
   function handleUsername(evt) {
     setUsername(evt.target.value);
   }
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        dispatch({ type: "LOGIN", username });
+        dispatch({ type: "LOGIN", username }); // Dispatch login action
       }}
     >
       <label htmlFor="login-username">Username:</label>
@@ -27,5 +30,3 @@ export default function Login({ dispatch }) {
     </form>
   );
 }
-
-

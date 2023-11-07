@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useResource } from "react-request-hook";
+import { StateContext } from "./contexts";
 
-export default function CreateTodo({ user, dispatch }) {
+export default function CreateTodo() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { state, dispatch } = useContext(StateContext); // Use useContext to access state and dispatch
 
   // Define the useResource hook for creating a new todo
   const [todoResponse, createTodo] = useResource(
@@ -29,8 +31,8 @@ export default function CreateTodo({ user, dispatch }) {
   }
 
   function handleCreate() {
-    if (user && title.trim()) {
-      createTodo({ title, description, author: user });
+    if (state.user && title.trim()) {
+      createTodo({ title, description, author: state.user });
     } else {
       alert(
         "Please enter a title for the todo and make sure you are logged in."
@@ -56,7 +58,7 @@ export default function CreateTodo({ user, dispatch }) {
       }}
     >
       <div>
-        Author: <b>{user}</b>
+        Author: <b>{state.user}</b>
       </div>
       <div>
         <label htmlFor="create-title">Title:</label>

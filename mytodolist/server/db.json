@@ -10,28 +10,12 @@
       "complete": false
     },
     {
-      "title": "1234",
-      "description": "abcd",
-      "author": "Saad",
-      "dateCreated": 1699336095327,
+      "title": "Go to Bed",
+      "description": "at 9",
+      "author": "Amal",
+      "dateCreated": 1699390376742,
       "complete": false,
       "id": 2
-    },
-    {
-      "title": "test",
-      "description": "1233",
-      "author": "Saad",
-      "dateCreated": 1699336255412,
-      "complete": false,
-      "id": 3
-    },
-    {
-      "title": "Go to Bed",
-      "description": "jaa beyyyy",
-      "author": "Saad",
-      "dateCreated": 1699340516066,
-      "complete": false,
-      "id": 4
     }
   ],
   "users": [
@@ -39,16 +23,6 @@
       "email": "saad@gmail.com",
       "password": "$2a$10$99OBuXhFeJXdULOC/PmF.OigPX5Oay6ExWUFsbEG2GkrhnkVCqHcG",
       "id": 1
-    },
-    {
-      "email": "1234@gmail.com",
-      "password": "$2a$10$fGpxDvR8CMIL.I0tEApX0eRc0AwFVu/0HTBPy4/AK6xCIiPNfuWcm",
-      "id": 2
-    },
-    {
-      "email": "1@gmail.com",
-      "password": "$2a$10$rU7EYIb4lz2V.tjJmdqXmOLX1aGuQcXsEq9e/M9EjL5oi4o8L5aYC",
-      "id": 3
     }
   ]
 }
