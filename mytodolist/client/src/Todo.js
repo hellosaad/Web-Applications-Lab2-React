@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StateContext } from "./contexts"; // Import the StateContext
+import { StateContext } from "./contexts"; 
 import "./Todo.css";
 
 export default function Todo({
@@ -11,7 +11,7 @@ export default function Todo({
   complete,
   dateCompleted,
 }) {
-  const { dispatch } = useContext(StateContext); // Use useContext to access dispatch
+  const { dispatch } = useContext(StateContext); 
   const formatDateAndTime = (timestamp) => {
     const date = new Date(timestamp);
     return `${

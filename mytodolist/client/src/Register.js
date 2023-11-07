@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { StateContext } from "./contexts"; // Import the StateContext
 
 export default function Register() {
-  const { dispatch } = useContext(StateContext); // Use useContext to access dispatch
+  const { dispatch } = useContext(StateContext); 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setpasswordRepeat] = useState("");
@@ -24,8 +24,7 @@ export default function Register() {
       onSubmit={(e) => {
         e.preventDefault();
         if (password === passwordRepeat) {
-          dispatch({ type: "REGISTER", username }); // Dispatch register action
-        } else {
+          dispatch({ type: "REGISTER", username });
           alert("Passwords do not match");
         }
       }}

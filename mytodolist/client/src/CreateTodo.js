@@ -5,12 +5,11 @@ import { StateContext } from "./contexts";
 export default function CreateTodo() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const { state, dispatch } = useContext(StateContext); // Use useContext to access state and dispatch
+  const { state, dispatch } = useContext(StateContext); 
 
-  // Define the useResource hook for creating a new todo
   const [todoResponse, createTodo] = useResource(
     ({ title, description, author }) => ({
-      url: "/posts", // Make sure this is the correct endpoint for your API
+      url: "/posts",
       method: "post",
       data: {
         title,
@@ -40,14 +39,13 @@ export default function CreateTodo() {
     }
   }
 
-  // Effect to run when the response of the createTodo resource changes
+  
   useEffect(() => {
     if (todoResponse && todoResponse.data) {
       dispatch({ type: "CREATE_TODO", newTodo: todoResponse.data });
       setTitle("");
       setDescription("");
     }
-    // Optionally handle error here
   }, [todoResponse, dispatch]);
 
   return (
