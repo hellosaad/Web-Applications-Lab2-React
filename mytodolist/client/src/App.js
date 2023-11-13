@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useContext } from "react";
+import React, { useReducer, useEffect } from "react";
 import { StateContext } from "./contexts";
 import appReducer from "./reducers";
 import { useResource } from "react-request-hook";
