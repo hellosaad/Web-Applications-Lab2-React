@@ -16,6 +16,22 @@
       "dateCreated": 1699390376742,
       "complete": false,
       "id": 2
+    },
+    {
+      "title": "Do hw4",
+      "description": "Complete hw4 deadline on tuesday",
+      "author": "slnu36@depaul.edu",
+      "dateCreated": 1699862418497,
+      "complete": false,
+      "id": 3
+    },
+    {
+      "title": "test",
+      "description": "1234",
+      "author": "1@gmail.com",
+      "dateCreated": 1699862457707,
+      "complete": false,
+      "id": 4
     }
   ],
   "users": [
@@ -23,6 +39,16 @@
       "email": "saad@gmail.com",
       "password": "$2a$10$99OBuXhFeJXdULOC/PmF.OigPX5Oay6ExWUFsbEG2GkrhnkVCqHcG",
       "id": 1
+    },
+    {
+      "email": "slnu36@depaul.edu",
+      "password": "$2a$10$w8PEziOXP2pjyMxCGiBodekjfeNlnAlqkcZVlrDWsRXCVBVT1x..G",
+      "id": 2
+    },
+    {
+      "email": "1@gmail.com",
+      "password": "$2a$10$KwhZjAI0JJwud5dl8bYJ2ugyV1rBYM35v4AnfI/GWKieGtx9vY/zq",
+      "id": 3
     }
   ]
 }
