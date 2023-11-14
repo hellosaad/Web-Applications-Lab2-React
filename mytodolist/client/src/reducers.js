@@ -24,11 +24,14 @@ export function todoReducer(state, action) {
           return {
             ...todo,
             complete: !todo.complete,
-            dateCompleted: !todo.complete ? Date.now() : null,
+            dateCompleted: !todo.complete
+              ? new Date().toISOString()
+              : todo.dateCompleted,
           };
         }
         return todo;
       });
+
     case "DELETE_TODO":
       return state.filter((todo) => todo.id !== action.id);
     default:

@@ -8,6 +8,24 @@
       "dateCompleted": null,
       "author": "Saad",
       "complete": false
+    },
+    {
+      "title": "Go to Bed",
+      "description": "now",
+      "author": "memad321@gmail.com",
+      "dateCreated": 1699942527356,
+      "complete": true,
+      "id": 2,
+      "dateCompleted": "2023-11-14T06:15:35.514Z"
+    },
+    {
+      "title": "Make Tea",
+      "description": "at 12",
+      "author": "dmx@gmail.com",
+      "dateCreated": 1699942603260,
+      "complete": true,
+      "id": 3,
+      "dateCompleted": "2023-11-14T06:16:49.213Z"
     }
   ],
   "users": [
@@ -20,6 +38,11 @@
       "email": "memad321@gmail.com",
       "password": "$2a$10$tnJEXTDPgtvVpG2DWiiyTeZso4NPCvq4UWBwywdAngTKuVgzc7umi",
       "id": 2
+    },
+    {
+      "email": "dmx@gmail.com",
+      "password": "$2a$10$4AIRonkdZgIsaN9uSsqq/uPfr8cDNCO0ndEr7XX1mroZYOCcsCH4y",
+      "id": 3
     }
   ]
 }
