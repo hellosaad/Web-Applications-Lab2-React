@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { StateContext } from "./contexts";
 import { useResource } from "react-request-hook";
-import bcrypt from "bcryptjs"; // If you're using hashed passwords
+import bcrypt from "bcryptjs"; 
 
 export default function Login() {
   const { dispatch } = useContext(StateContext);
@@ -9,7 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
-  // Define the useResource hook for GET /users
+ 
   const [usersResult, getUsers] = useResource(() => ({
     url: "/users",
     method: "get",

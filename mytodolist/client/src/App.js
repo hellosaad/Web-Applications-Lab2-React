@@ -8,24 +8,20 @@ import TodoList from "./TodoList";
 import "./App.css";
 
 function App() {
-  // Use the combined reducer for your entire app's state management
   const [state, dispatch] = useReducer(appReducer, { user: "", todos: [] });
 
-  // Define the useResource Hook for GET /posts
   const [postsResult, getPosts] = useResource(() => ({
     url: "/posts",
     method: "get",
   }));
 
-  // Fetch posts when the component mounts
   useEffect(() => {
     getPosts();
-  }, [getPosts]); // Ensure getPosts is listed in the dependency array
+  }, [getPosts]); 
 
-  // Dispatch an action when the posts are successfully fetched
   useEffect(() => {
     if (postsResult && postsResult.data) {
-      // Transform the posts to match the expected format of todos
+      
       const transformedTodos = postsResult.data.map((post) => ({
         id: post.id,
         title: post.title,
@@ -42,12 +38,12 @@ function App() {
   return (
     <StateContext.Provider value={{ state, dispatch }}>
       {" "}
-      {/* Wrap your components with StateContext.Provider */}
+      
       <div className="App">
-        <UserBar /> {/* UserBar now gets state and dispatch from context */}
+        <UserBar /> 
         <CreateTodo />{" "}
-        {/* CreateTodo now gets state and dispatch from context */}
-        <TodoList /> {/* TodoList now gets state and dispatch from context */}
+       
+        <TodoList /> 
       </div>
     </StateContext.Provider>
   );

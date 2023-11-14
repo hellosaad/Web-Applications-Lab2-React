@@ -1,15 +1,6 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "Go to the Gym",
-      "description": "Chest Day today",
-      "dateCreated": "",
-      "dateCompleted": null,
-      "author": "Saad",
-      "complete": false
-    },
-    {
       "title": "Go to Bed",
       "description": "now",
       "author": "memad321@gmail.com",
@@ -19,13 +10,13 @@
       "dateCompleted": "2023-11-14T06:15:35.514Z"
     },
     {
-      "title": "Make Tea",
-      "description": "at 12",
+      "title": "Make Bed",
+      "description": "As soon as i wake up",
       "author": "dmx@gmail.com",
-      "dateCreated": 1699942603260,
-      "complete": true,
+      "dateCreated": 1700000786836,
+      "complete": false,
       "id": 3,
-      "dateCompleted": "2023-11-14T06:16:49.213Z"
+      "dateCompleted": null
     }
   ],
   "users": [
