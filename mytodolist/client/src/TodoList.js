@@ -15,8 +15,8 @@ export default function TodoList() {
 
   return (
     <div className="todo-list-container">
-      {state.todos.map((todo) => (
-        <Todo {...todo} key={todo._id} id={todo._id} />
+      {state.todos.map((todo, index) => (
+        <Todo {...todo} key={index} id={todo._id} />
       ))}
     </div>
   );

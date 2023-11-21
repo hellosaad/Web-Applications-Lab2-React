@@ -8,13 +8,10 @@ export default function Todo({
   title,
   description,
   dateCreated,
-  complete: initialComplete,
-  dateCompleted: initialDateCompleted,
+  complete,
+  dateCompleted,
 }) {
   const { state, dispatch } = useContext(StateContext);
-
-  const [complete, setComplete] = useState(initialComplete);
-  const [dateCompleted, setDateCompleted] = useState(initialDateCompleted);
 
   const [toggleTodoState, toggleTodo] = useResource(
     ({ id, complete, dateCompleted }) => ({
@@ -41,32 +38,34 @@ export default function Todo({
       ? new Date().toISOString()
       : null;
 
-    setComplete(newCompleteStatus);
-    setDateCompleted(newDateCompleted);
-
     toggleTodo({
       id,
       complete: newCompleteStatus,
       dateCompleted: newDateCompleted,
     });
+
+    if (
+      toggleTodoState &&
+      toggleTodoState.isLoading === false &&
+      toggleTodoState.error === undefined
+    ) {
+      dispatch({ type: "UPDATE_TODO", id: id, payload: {
+        complete: newCompleteStatus,
+        dateCompleted: newDateCompleted,
+      }});
+    }
   };
 
   const handleDelete = () => {
     deleteTodo(id);
-  };
-
-  useEffect(() => {
-    if (toggleTodoState && toggleTodoState.data) {
-      dispatch({ type: "UPDATE_TODO", id: id, payload: toggleTodoState.data });
-    }
     if (
       deleteTodoState &&
       deleteTodoState.isLoading === false &&
-      deleteTodoState.error === null
+      deleteTodoState.error === undefined
     ) {
       dispatch({ type: "DELETE_TODO", id: id });
     }
-  }, [toggleTodoState, deleteTodoState, dispatch, id]);
+  };
 
   const formatDateAndTime = (timestamp) => {
     const date = new Date(timestamp);

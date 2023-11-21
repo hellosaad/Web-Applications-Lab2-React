@@ -32,7 +32,15 @@ const [todoResponse, createTodo] = useResource(
     setDescription(evt.target.value);
   }
 
-  function handleCreate() {
+  useEffect(() => {
+    if (todoResponse.data) {
+      dispatch({ type: "CREATE_TODO", newTodo: todoResponse.data });
+      setTitle("");
+      setDescription("");
+    }
+  }, [todoResponse.data])
+
+  function handleCreate () {
     if (state.user && title.trim()) {
       createTodo({ title, description, author: state.user.username });
     } else {
@@ -41,15 +49,6 @@ const [todoResponse, createTodo] = useResource(
       );
     }
   }
-
-  
-  useEffect(() => {
-    if (todoResponse && todoResponse.data) {
-      dispatch({ type: "CREATE_TODO", newTodo: todoResponse.data });
-      setTitle("");
-      setDescription("");
-    }
-  }, [todoResponse, dispatch]);
 
   return (
     <form
