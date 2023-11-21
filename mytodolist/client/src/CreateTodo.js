@@ -7,19 +7,22 @@ export default function CreateTodo() {
   const [description, setDescription] = useState("");
   const { state, dispatch } = useContext(StateContext); 
 
-  const [todoResponse, createTodo] = useResource(
-    ({ title, description, author }) => ({
-      url: "/posts",
-      method: "post",
-      data: {
-        title,
-        description,
-        author,
-        dateCreated: Date.now(),
-        complete: false,
-      },
-    })
-  );
+const [todoResponse, createTodo] = useResource(
+  ({ title, description, author }) => ({
+    url: "/todo", // Ensure the URL matches your backend route
+    method: "post",
+    headers: {
+      Authorization: `${state.user.access_token}`, // Assuming the token is stored in the user state
+    },
+    data: {
+      title,
+      description,
+      author,
+      complete: false,
+      dateCompleted: null,
+    },
+  })
+);
 
   function handleTitle(evt) {
     setTitle(evt.target.value);
@@ -31,7 +34,7 @@ export default function CreateTodo() {
 
   function handleCreate() {
     if (state.user && title.trim()) {
-      createTodo({ title, description, author: state.user });
+      createTodo({ title, description, author: state.user.username });
     } else {
       alert(
         "Please enter a title for the todo and make sure you are logged in."
@@ -56,7 +59,7 @@ export default function CreateTodo() {
       }}
     >
       <div>
-        Author: <b>{state.user}</b>
+        Author: <b>{state.user.username}</b>
       </div>
       <div>
         <label htmlFor="create-title">Title:</label>

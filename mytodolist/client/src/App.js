@@ -10,44 +10,35 @@ import "./App.css";
 function App() {
   const [state, dispatch] = useReducer(appReducer, { user: "", todos: [] });
 
-  const [postsResult, getPosts] = useResource(() => ({
-    url: "/posts",
+  const [todosResult, getTodos] = useResource(() => ({
+    url: "/todo",
     method: "get",
+    headers: {
+      Authorization: `${state.user.access_token}`,
+    },
   }));
 
   useEffect(() => {
-    getPosts();
-  }, [getPosts]); 
+    if (state.user) {
+      getTodos();
+    }
+  }, [getTodos, state.user]);
 
   useEffect(() => {
-    if (postsResult && postsResult.data) {
-      
-      const transformedTodos = postsResult.data.map((post) => ({
-        id: post.id,
-        title: post.title,
-        description: post.description,
-        dateCreated: post.dateCreated || Date.now(),
-        dateCompleted: post.dateCompleted,
-        author: post.author,
-        complete: post.complete,
-      }));
-      dispatch({ type: "FETCH_TODOS", todos: transformedTodos });
+    if (todosResult && todosResult.data) {
+      dispatch({ type: "FETCH_TODOS", todos: todosResult.data.todos });
     }
-  }, [postsResult, dispatch]);
+  }, [todosResult, dispatch]);
 
   return (
     <StateContext.Provider value={{ state, dispatch }}>
-      {" "}
-      
       <div className="App">
-        <UserBar /> 
-        <CreateTodo />{" "}
-       
-        <TodoList />     
+        <UserBar />
+        {state.user && <CreateTodo />}
+        <TodoList />
       </div>
     </StateContext.Provider>
   );
-
 }
 
 export default App;

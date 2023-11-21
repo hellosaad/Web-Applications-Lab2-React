@@ -8,7 +8,7 @@ export default function UserBar() {
   const { state, dispatch } = useContext(StateContext); 
 
   if (state.user) {
-    return <Logout user={state.user} dispatch={dispatch} />;
+    return <Logout user={state.user.username} dispatch={dispatch} />;
   } else {
     return (
       <>

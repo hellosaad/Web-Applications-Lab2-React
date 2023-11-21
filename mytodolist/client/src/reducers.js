@@ -4,7 +4,11 @@ export function userReducer(state, action) {
   switch (action.type) {
     case "LOGIN":
     case "REGISTER":
-      return action.username;
+      return {
+        ...state, // Keep the existing state
+        username: action.username,
+        access_token: action.access_token,
+      };
     case "LOGOUT":
       return "";
     default:
@@ -12,28 +16,28 @@ export function userReducer(state, action) {
   }
 }
 
+
+
 export function todoReducer(state, action) {
   switch (action.type) {
     case "FETCH_TODOS":
       return action.todos;
     case "CREATE_TODO":
       return [action.newTodo, ...state];
-    case "TOGGLE_TODO":
+    case "UPDATE_TODO":
       return state.map((todo) => {
         if (todo.id === action.id) {
           return {
             ...todo,
-            complete: !todo.complete,
-            dateCompleted: !todo.complete
-              ? new Date().toISOString()
-              : todo.dateCompleted,
+            title: action.title,
+            description: action.description,
           };
         }
         return todo;
       });
 
     case "DELETE_TODO":
-      return state.filter((todo) => todo.id !== action.id);
+      return state.filter((todo) => todo._id !== action.id);
     default:
       return state;
   }

@@ -74,11 +74,13 @@ router.use(function (req, res, next) {
 
 // Creating a new Todo
 router.post("/", async function (req, res) {
+  const { title, description, complete, dateCompleted } = req.body;
   const todo = new Todo({
-    title: req.body.title,
-    description: req.body.description,
+    title,
+    description,
     author: req.payload.id,
-    // The other fields will be set to their default values
+    complete: complete || false,
+    dateCompleted: dateCompleted || null,
   });
   await todo
     .save()
@@ -97,28 +99,62 @@ router.get("/", async function (req, res) {
 });
 
 // Deleting a Todo
-router.delete("/:id", async function (req, res) {
-  const { id } = req.params; // Extract the todo ID from the URL parameter
-  await Todo.findByIdAndDelete(id) // Find the todo by its ID and delete it
-    .then(() => {
-      return res.status(200).json({ message: "Todo deleted successfully" }); // Send a success response
-    })
-    .catch((error) => {
-      return res.status(500).json({ error: error.message }); // Handle any errors
-    });
+router.delete("/delete", async function (req, res) {
+  const { id } = req.body; // Get id from the request body
+  try {
+    const todo = await Todo.findOne({ _id: id, author: req.payload.id });
+    if (!todo) {
+      return res.status(404).json({ error: "Todo not found or unauthorized" });
+    }
+    await todo.remove();
+    return res.status(200).json({ message: "Todo deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 });
 
+
 // Updating a Todo
-router.put("/:id", async function (req, res) {
-  const { id } = req.params;
-  const updateData = req.body;
-  await Todo.findByIdAndUpdate(id, updateData, { new: true })
-    .then((updatedTodo) => {
-      return res.status(200).json(updatedTodo);
-    })
-    .catch((error) => {
-      return res.status(500).json({ error: error.message });
-    });
+// Updating a Todo's completion status
+router.patch("/toggle", async function (req, res) {
+  const { id, complete, dateCompleted } = req.body; // Get data from the request body
+
+  try {
+    const todo = await Todo.findOne({ _id: id, author: req.payload.id });
+    if (!todo) {
+      return res.status(404).json({ error: "Todo not found or unauthorized" });
+    }
+    todo.complete = complete;
+    todo.dateCompleted = dateCompleted;
+    const updatedTodo = await todo.save();
+    return res.status(200).json(updatedTodo);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 });
+
+router.put("/:id", async function (req, res) {
+  try {
+    const updatedTodo = await Todo.findOneAndUpdate(
+      { _id: req.params.id, author: req.payload.id },
+      {
+        title: req.body.title,
+        description: req.body.description,
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedTodo) {
+      return res.status(404).json({ error: "Todo not found or unauthorized" });
+    }
+
+    return res.status(200).json(updatedTodo);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+
+
 
 module.exports = router;
