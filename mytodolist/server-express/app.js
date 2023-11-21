@@ -16,6 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
+require("dotenv").config();
 require("./setupMongo")();
 
 app.use("/auth", require("./routes/auth"));

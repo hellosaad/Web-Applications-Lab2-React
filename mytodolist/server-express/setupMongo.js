@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const uri =
-  "mongodb+srv://slnu36:9OE2UHNQAdNNErJ5@webapps-saad.sy0bg52.mongodb.net/?retryWrites=true&w=majority";
+require("dotenv").config({ path: "./routes/.env" });
+console.log(process.env.DB_URI)
+const uri = process.env.DB_URI;
 function connect() {
   const options = { useNewUrlParser: true };
   mongoose.connect(uri, options).then(
