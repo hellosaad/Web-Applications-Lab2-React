@@ -13,13 +13,12 @@ export default function Todo({
 }) {
   const { state, dispatch } = useContext(StateContext);
 
-  // Local state to manage the complete status and dateCompleted
   const [complete, setComplete] = useState(initialComplete);
   const [dateCompleted, setDateCompleted] = useState(initialDateCompleted);
 
   const [toggleTodoState, toggleTodo] = useResource(
     ({ id, complete, dateCompleted }) => ({
-      url: `/todo/${id}`, // Assuming you have a route to toggle the todo
+      url: `/todo/${id}`,
       method: "put",
       headers: {
         Authorization: `${state.user.access_token}`,
@@ -28,23 +27,13 @@ export default function Todo({
     })
   );
 
-  const [, deleteTodo] = useResource(({ id }) => ({
-    url: `/todo/delete`, // General URL without the id
+  const [deleteTodoState, deleteTodo] = useResource((id) => ({
+    url: `/todo/${id}`,
     method: "delete",
     headers: {
       Authorization: `${state.user.access_token}`,
     },
-    data: { id }, // Send id in the request body
   }));
-
-  const formatDateAndTime = (timestamp) => {
-    const date = new Date(timestamp);
-    return `${
-      date.getMonth() + 1
-    }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${
-      date.getMinutes() < 10 ? "0" : ""
-    }${date.getMinutes()}`;
-  };
 
   const handleToggle = () => {
     const newCompleteStatus = !complete;
@@ -52,7 +41,6 @@ export default function Todo({
       ? new Date().toISOString()
       : null;
 
-    // Update local state immediately
     setComplete(newCompleteStatus);
     setDateCompleted(newDateCompleted);
 
@@ -64,17 +52,30 @@ export default function Todo({
   };
 
   const handleDelete = () => {
-    deleteTodo({ id }).then(() => {
-      dispatch({ type: "DELETE_TODO", id });
-    });
+    deleteTodo(id);
   };
 
- useEffect(() => {
-   if (toggleTodoState && toggleTodoState.data) {
-     dispatch({ type: "UPDATE_TODO", id: id, payload: toggleTodoState.data });
-   }
- }, [toggleTodoState, dispatch, id]);
+  useEffect(() => {
+    if (toggleTodoState && toggleTodoState.data) {
+      dispatch({ type: "UPDATE_TODO", id: id, payload: toggleTodoState.data });
+    }
+    if (
+      deleteTodoState &&
+      deleteTodoState.isLoading === false &&
+      deleteTodoState.error === null
+    ) {
+      dispatch({ type: "DELETE_TODO", id: id });
+    }
+  }, [toggleTodoState, deleteTodoState, dispatch, id]);
 
+  const formatDateAndTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return `${
+      date.getMonth() + 1
+    }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${
+      date.getMinutes() < 10 ? "0" : ""
+    }${date.getMinutes()}`;
+  };
 
   return (
     <div className="todo-item">
