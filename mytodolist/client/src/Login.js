@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { StateContext } from "./contexts";
 import { useResource } from "react-request-hook";
-import bcrypt from "bcryptjs"; 
+import { useEffect } from "react";
 
 export default function Login() {
   const { dispatch } = useContext(StateContext);
@@ -9,50 +9,46 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
- 
-  const [usersResult, getUsers] = useResource(() => ({
-    url: "/users",
-    method: "get",
+  // Updated to use the /auth/login endpoint
+  const [user, login] = useResource((username, password) => ({
+    url: "/auth/login",
+    method: "post",
+    data: { username, password },
   }));
 
   useEffect(() => {
-    getUsers();
-  }, [getUsers]);
+    if (user && user.isLoading === false) {
+      if (user.data) {
+        // Dispatch the LOGIN action with the received token
+        dispatch({
+          type: "LOGIN",
+          username: username, // Assuming username is what you want to store
+          access_token: user.data.access_token,
+        });
+        setLoginError("");
+      } else if (user.error) {
+        setLoginError("Invalid credentials. Please try again.");
+      }
+    }
+  }, [user, username, dispatch]);
 
-   useEffect(() => {
-     if (usersResult && usersResult.data) {
-       const foundUser = usersResult.data.find(
-         (user) => user.email === username
-       );
-       if (foundUser && bcrypt.compareSync(password, foundUser.password)) {
-         dispatch({ type: "LOGIN", username: foundUser.email });
-         setLoginError("");
-       } else if (foundUser) {
-         setLoginError("Incorrect password. Please try again.");
-       } else {
-         setLoginError("Email not registered. Please register.");
-       }
-     }
-   }, [usersResult, username, password, dispatch]);
+  function handleUsername(evt) {
+    setUsername(evt.target.value);
+  }
 
-   function handleUsername(evt) {
-     setUsername(evt.target.value);
-   }
+  function handlePassword(evt) {
+    setPassword(evt.target.value);
+  }
 
-   function handlePassword(evt) {
-     setPassword(evt.target.value);
-   }
-
+  function handleSubmit(e) {
+    e.preventDefault();
+    setLoginError("");
+    login(username, password);
+  }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setLoginError("");
-        getUsers();
-      }}
-    >
-      <label htmlFor="login-username">Email:</label>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="login-username">Username:</label>
       <input
         type="text"
         name="login-username"
@@ -64,10 +60,10 @@ export default function Login() {
       <label htmlFor="login-password">Password:</label>
       <input
         type="password"
-        value={password}
-        onChange={handlePassword}
         name="login-password"
         id="login-password"
+        value={password}
+        onChange={handlePassword}
       />
 
       {loginError && <div>{loginError}</div>}
