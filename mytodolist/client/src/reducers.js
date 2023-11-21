@@ -26,11 +26,11 @@ export function todoReducer(state, action) {
       return [action.newTodo, ...state];
     case "UPDATE_TODO":
       return state.map((todo) => {
-        if (todo.id === action.id) {
+        if (todo._id === action.id) {
           return {
             ...todo,
-            title: action.title,
-            description: action.description,
+            complete: action.payload.complete,
+            dateCompleted: action.payload.dateCompleted,
           };
         }
         return todo;

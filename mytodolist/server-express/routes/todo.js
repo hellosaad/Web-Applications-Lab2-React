@@ -116,32 +116,15 @@ router.delete("/delete", async function (req, res) {
 
 // Updating a Todo
 // Updating a Todo's completion status
-router.patch("/toggle", async function (req, res) {
-  const { id, complete, dateCompleted } = req.body; // Get data from the request body
 
-  try {
-    const todo = await Todo.findOne({ _id: id, author: req.payload.id });
-    if (!todo) {
-      return res.status(404).json({ error: "Todo not found or unauthorized" });
-    }
-    todo.complete = complete;
-    todo.dateCompleted = dateCompleted;
-    const updatedTodo = await todo.save();
-    return res.status(200).json(updatedTodo);
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-});
 
 router.put("/:id", async function (req, res) {
   try {
+    const { title, description, complete, dateCompleted } = req.body;
     const updatedTodo = await Todo.findOneAndUpdate(
       { _id: req.params.id, author: req.payload.id },
-      {
-        title: req.body.title,
-        description: req.body.description,
-      },
-      { new: true } // Return the updated document
+      { complete, dateCompleted },
+      { new: true }
     );
 
     if (!updatedTodo) {

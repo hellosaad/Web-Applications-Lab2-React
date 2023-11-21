@@ -20,7 +20,7 @@ export default function Todo({
   const [toggleTodoState, toggleTodo] = useResource(
     ({ id, complete, dateCompleted }) => ({
       url: `/todo/${id}`, // Assuming you have a route to toggle the todo
-      method: "patch",
+      method: "put",
       headers: {
         Authorization: `${state.user.access_token}`,
       },
@@ -69,13 +69,12 @@ export default function Todo({
     });
   };
 
-  useEffect(() => {
-    if (toggleTodoState && toggleTodoState.data) {
-      // Update the local state based on the response
-      setComplete(toggleTodoState.data.complete);
-      setDateCompleted(toggleTodoState.data.dateCompleted);
-    }
-  }, [toggleTodoState]);
+ useEffect(() => {
+   if (toggleTodoState && toggleTodoState.data) {
+     dispatch({ type: "UPDATE_TODO", id: id, payload: toggleTodoState.data });
+   }
+ }, [toggleTodoState, dispatch, id]);
+
 
   return (
     <div className="todo-item">
