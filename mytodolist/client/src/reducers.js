@@ -5,7 +5,7 @@ export function userReducer(state, action) {
     case "LOGIN":
     case "REGISTER":
       return {
-        ...state, // Keep the existing state
+        ...state, 
         username: action.username,
         access_token: action.access_token,
       };

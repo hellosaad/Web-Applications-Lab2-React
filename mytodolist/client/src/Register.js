@@ -28,10 +28,10 @@ export default function Register() {
   function handleRegister(e) {
     e.preventDefault();
     if (password !== passwordRepeat) {
-      setStatus("Passwords do not match"); // Update status instead of alert
+      setStatus("Passwords do not match"); 
     } else {
       register(username, password);
-      setStatus("Registering..."); // Optional: Set a status message for registering
+      setStatus("Registering..."); 
     }
   }
 

@@ -9,7 +9,7 @@ router.use(function (req, res, next) {
   if (req.header("Authorization")) {
     try {
       req.payload = jwt.verify(req.header("Authorization"), privateKey, {
-        algorithms: ["RS256"], // Ensure the algorithm matches
+        algorithms: ["RS256"], 
       });
     } catch (error) {
       return res.status(401).json({ error: error.message });
@@ -40,16 +40,13 @@ router.post("/", async function (req, res) {
     });
 });
 
-// Retrieving a user’s Todos
+
 router.get("/", async function (req, res) {
   const todos = await Todo.find().where("author").equals(req.payload.id).exec();
   return res.status(200).json({ todos });
 });
 
-// Deleting a Todo
-// In your todo routes file (e.g., routes/todo.js)
 
-// Deleting a Todo
 router.delete("/:id", async function (req, res) {
   try {
     const deletedTodo = await Todo.findOneAndDelete({
@@ -68,8 +65,7 @@ router.delete("/:id", async function (req, res) {
 });
 
 
-// Updating a Todo
-// Updating a Todo's completion status
+
 
 
 router.put("/:id", async function (req, res) {

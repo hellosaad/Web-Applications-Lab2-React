@@ -9,7 +9,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
-  // Updated to use the /auth/login endpoint
   const [user, login] = useResource((username, password) => ({
     url: "/auth/login",
     method: "post",
@@ -19,10 +18,9 @@ export default function Login() {
   useEffect(() => {
     if (user && user.isLoading === false) {
       if (user.data) {
-        // Dispatch the LOGIN action with the received token
         dispatch({
           type: "LOGIN",
-          username: username, // Assuming username is what you want to store
+          username: username, 
           access_token: user.data.access_token,
         });
         setLoginError("");

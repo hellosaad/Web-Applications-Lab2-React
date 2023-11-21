@@ -9,10 +9,10 @@ export default function CreateTodo() {
 
 const [todoResponse, createTodo] = useResource(
   ({ title, description, author }) => ({
-    url: "/todo", // Ensure the URL matches your backend route
+    url: "/todo",
     method: "post",
     headers: {
-      Authorization: `${state.user.access_token}`, // Assuming the token is stored in the user state
+      Authorization: `${state.user.access_token}`, 
     },
     data: {
       title,

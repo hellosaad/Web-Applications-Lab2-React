@@ -8,9 +8,9 @@ import Todo from "./Todo";
 export default function TodoList() {
   const { state } = useContext(StateContext);
 
-  // Check if a user is logged in
+  
   if (!state.user || !state.user.username) {
-    return null; // or you can return a message like "Please log in to view todos"
+    return null; 
   }
 
   return (
