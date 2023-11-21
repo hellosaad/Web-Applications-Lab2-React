@@ -99,15 +99,21 @@ router.get("/", async function (req, res) {
 });
 
 // Deleting a Todo
-router.delete("/delete", async function (req, res) {
-  const { id } = req.body; // Get id from the request body
+// In your todo routes file (e.g., routes/todo.js)
+
+// Deleting a Todo
+router.delete("/:id", async function (req, res) {
   try {
-    const todo = await Todo.findOne({ _id: id, author: req.payload.id });
-    if (!todo) {
+    const deletedTodo = await Todo.findOneAndDelete({
+      _id: req.params.id,
+      author: req.payload.id
+    });
+
+    if (!deletedTodo) {
       return res.status(404).json({ error: "Todo not found or unauthorized" });
     }
-    await todo.remove();
-    return res.status(200).json({ message: "Todo deleted successfully" });
+
+    return res.status(200).json({ message: "Todo successfully deleted" });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
